@@ -6,6 +6,7 @@ import java.util.Arrays;
 import com.neliocourse.course.entities.Category;
 import com.neliocourse.course.entities.Order;
 import com.neliocourse.course.entities.OrderItem;
+import com.neliocourse.course.entities.Payment;
 import com.neliocourse.course.entities.Product;
 import com.neliocourse.course.entities.User;
 import com.neliocourse.course.entities.enums.OrderStatus;
@@ -81,6 +82,11 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+		o1.setPayment(pay1);
+
+		orderRepository.save(o1);
 	}
 
 }
