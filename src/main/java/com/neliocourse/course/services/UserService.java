@@ -3,6 +3,8 @@ package com.neliocourse.course.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import com.neliocourse.course.entities.User;
 import com.neliocourse.course.repositories.UserRepository;
 import com.neliocourse.course.services.exceptions.DatabaseException;
@@ -47,9 +49,14 @@ public class UserService {
 	}
 
 	public User update(Long id, User obj) {
-		User entity = repository.getOne(id);
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			User entity = repository.getOne(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+
+		} catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(User entity, User obj) {
